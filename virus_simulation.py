@@ -173,10 +173,6 @@ class Patient(object):
         return len(self.getViruses())
 
 
-
-#
-# PROBLEM 2
-#
 def simulationWithoutDrug(numViruses, maxPop, maxBirthProb, clearProb,
                           numTrials):
     """
@@ -193,7 +189,39 @@ def simulationWithoutDrug(numViruses, maxPop, maxBirthProb, clearProb,
     numTrials: number of simulation runs to execute (an integer)
     """
 
-    # TODO
+    trialCounter = 0
+    virusPop = []
+    for trial in range(numTrials):
+        trialCounter += 1
+        viruses = []
+        for num in range(numViruses):
+            viruses.append(SimpleVirus(maxBirthProb, clearProb))
+        patient = Patient(viruses, maxPop)
+
+        timesteps = []
+        counter = 0
+        if trialCounter == 1:
+            for timestep in range(300):
+                counter += 1
+                timesteps.append(counter)
+                patient.update()
+                virusPop.append(patient.getTotalPop())
+        else:
+            for timestep in range(300):
+                counter += 1
+                timesteps.append(counter)
+                patient.update()
+                virusPop[counter-1] += patient.getTotalPop()
+    virusPopAvg = []
+    for item in virusPop:
+        virusPopAvg.append(item/numTrials)
+  
+    pylab.plot(virusPopAvg, label = 'SimpleVirus')    
+    pylab.title('SimpleVirus simulation')
+    pylab.xlabel('Time Steps')
+    pylab.ylabel('Average Virus Population')
+    pylab.legend(loc = 'best')
+    pylab.show()
 
 
 
