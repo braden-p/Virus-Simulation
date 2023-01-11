@@ -1,4 +1,21 @@
-# Problem Set 3: Simulating the Spread of Disease and Virus Population Dynamics 
+"""
+Virus Simulation
+Created by Braden Piper, bradenpiper.com
+Created on Wed Jan 11, 2023
+Version = 1.1
+------------------------------------------
+DESCRIPTION:
+A stochastic simulation of a virus population within a human body.
+------------------------------------------
+NOTE: This program was completed as part of the course MITx 6.00.2x - Introduction
+to Computational Thinking and Data Science. The general framework, and some
+of the functions were provided materials. The majority of the implementation is
+my own work.
+The following class was provided:
+    NoChildException
+All of the remaining class and function names were provided with docstrings,
+but the implementations are my own work:
+"""
 
 import random
 import pylab
@@ -19,9 +36,6 @@ class NoChildException(Exception):
 End helper code
 '''
 
-#
-# PROBLEM 1
-#
 class SimpleVirus(object):
 
     """
