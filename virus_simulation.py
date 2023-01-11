@@ -443,3 +443,9 @@ def simulationWithDrug(numViruses, maxPop, maxBirthProb, clearProb, resistances,
     """
 
     # TODO
+
+
+# SIMULATION WITHOUT DRUG
+# Note: These are the simulationWithoutDrug parameters:
+#(numViruses, maxPop, maxBirthProb, clearProb, numTrials)
+simulationWithoutDrug(100, 1000, 0.1, .05, 30)
