@@ -478,8 +478,6 @@ class TreatedPatient(Patient):
 def simulationWithDrug(numViruses, maxPop, maxBirthProb, clearProb, resistances,
                         mutProb, numTrials):
     """
-    Runs simulations and plots graphs for problem 5.
-
     For each of numTrials trials, instantiates a patient, runs a simulation for
     150 timesteps, adds guttagonol, and runs the simulation for an additional
     150 timesteps.  At the end plots the average virus population size
