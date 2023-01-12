@@ -4,22 +4,23 @@
 #### Version = 1.1
 ---
 ## DESCRIPTION
-A stochastic simulation of a virus population within a human body. In this
-simulation, in a given time step, a SimpleVirus has a probability of
+A stochastic simulation of a virus population within a `Patient`. In this
+simulation, in a given time step, a `SimpleVirus` has a probability of
 reproducing and a probability of dying and being cleared from the patient.
-A ResistantVirus inherits from SimpleVirus, and also has a probablity that
+A `ResistantVirus` inherits from `SimpleVirus`, and also has a probablity that
 its offspring will develop a resistance to any drugs.
 There is a maximum limit to the size of the virus population within the body,
 and as the population density increases, the likelihood that a virus will
 reproduce decreases.
 
-A TreatedPatient inherits from Patient, and can be prescribed medication.
+A `TreatedPatient` inherits from `Patient`, and can be prescribed medication.
 If a virus is not resistant to a medication that has been taken by the
 TreatedPatient, it will not reproduce.
-The simulationWithDrug and simulationWithoutDrug functions allow the user
+
+The `simulationWithDrug` and `simulationWithoutDrug` functions allow the user
 to run the virus simulation for 300 time steps and with their desired parameters
 over multiple trials, and will plot the average results of the trials. In the
-simulationWithDrug function, a drug is administered at the 150th time step.
+`simulationWithDrug` function, the drug guttaginol is administered at the 150th time step.
 The customizable parameters for these simulations are:
 * The number of viruses to start with (numViruses)
 * The maximum virus population (maxPop)
