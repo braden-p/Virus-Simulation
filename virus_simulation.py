@@ -545,6 +545,13 @@ def simulationWithDrug(numViruses, maxPop, maxBirthProb, clearProb, resistances,
 
 
 # SIMULATION WITHOUT DRUG
-# Note: These are the simulationWithoutDrug parameters:
-#(numViruses, maxPop, maxBirthProb, clearProb, numTrials)
-simulationWithoutDrug(100, 1000, 0.1, .05, 30)
+# Uncomment this line to run the simulation without drug
+# These are the simulationWithoutDrug parameters:
+# (numViruses, maxPop, maxBirthProb, clearProb, numTrials)
+##simulationWithoutDrug(100, 1000, 0.1, .05, 100)
+
+# SIMULATION WITH DRUG
+# Uncomment this line to run the simulation with drug
+# These are the simulationWithDrug parameters:
+# (numViruses, maxPop, maxBirthProb, clearProb, resistances, mutProb, numTrials)
+##simulationWithDrug(100, 1000, 0.1, .05, {'guttagonol': False}, .005, 100)
