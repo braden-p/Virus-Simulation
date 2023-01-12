@@ -460,12 +460,8 @@ class TreatedPatient(Patient):
         return len(self.getViruses())
 
 
-
-#
-# PROBLEM 4
-#
 def simulationWithDrug(numViruses, maxPop, maxBirthProb, clearProb, resistances,
-                       mutProb, numTrials):
+                        mutProb, numTrials):
     """
     Runs simulations and plots graphs for problem 5.
 
@@ -480,14 +476,72 @@ def simulationWithDrug(numViruses, maxPop, maxBirthProb, clearProb, resistances,
     maxBirthProb: Maximum reproduction probability (a float between 0-1)        
     clearProb: maximum clearance probability (a float between 0-1)
     resistances: a dictionary of drugs that each ResistantVirus is resistant to
-                 (e.g., {'guttagonol': False})
+                  (e.g., {'guttagonol': False})
     mutProb: mutation probability for each ResistantVirus particle
-             (a float between 0-1). 
+              (a float between 0-1). 
     numTrials: number of simulation runs to execute (an integer)
     
     """
 
-    # TODO
+    trialCounter = 0
+    virusPop = []
+    resistantVirusPop = []
+    for trial in range(numTrials):
+        trialCounter += 1
+        viruses = []
+        for num in range(numViruses):
+            viruses.append(ResistantVirus(maxBirthProb, clearProb, resistances, mutProb))
+        patient = TreatedPatient(viruses, maxPop)
+
+        timesteps = []
+        counter = 0
+        if trialCounter == 1:               # first trial sets 150 slots for virusPop
+            for timestep in range(150):
+                counter += 1
+                timesteps.append(counter)   # keep track of # of timesteps
+                patient.update()            # update 150 times
+                virusPop.append(patient.getTotalPop())   # add total virus populations to virusPop
+                resistantVirusPop.append(patient.getResistPop(['guttagonol']))
+            patient.addPrescription('guttagonol')   #  add guttagonol drug
+            for timestep in range(150):
+                counter += 1
+                timesteps.append(counter)   # keep track of # of timesteps
+                patient.update()            # update 150 times
+                virusPop.append(patient.getTotalPop())   # add total virus populations to virusPop
+                resistantVirusPop.append(patient.getResistPop(['guttagonol']))
+        
+        else:
+            for timestep in range(150):    # subsequent trials add virusPop to corresponding index
+                counter += 1
+                timesteps.append(counter)
+                patient.update()
+                virusPop[counter-1] += patient.getTotalPop()
+                resistantVirusPop[counter-1] += patient.getResistPop(['guttagonol'])
+            patient.addPrescription('guttagonol')
+            for timestep in range(150):    
+                counter += 1
+                timesteps.append(counter)
+                patient.update()
+                virusPop[counter-1] += patient.getTotalPop()
+                resistantVirusPop[counter-1] += patient.getResistPop(['guttagonol'])
+    virusPopAvg = []
+    resistantVirusPopAvg = []
+    print('Total Virus Pop:', virusPop)
+    print('Resistant Virus Pop:', resistantVirusPop)
+    for item in virusPop:
+        virusPopAvg.append(item/numTrials)
+    for item in resistantVirusPop:
+        resistantVirusPopAvg.append(item/numTrials)
+    print('Avg Total Virus Pop:', virusPopAvg)
+    print('Avg Resistant Virus Pop:', resistantVirusPopAvg)
+  
+    pylab.plot(virusPopAvg, label = 'Total')
+    pylab.plot(resistantVirusPopAvg, label = 'ResistantVirus')    
+    pylab.title('ResistantVirus simulation')
+    pylab.xlabel('Time Steps')
+    pylab.ylabel('Average Virus Population')
+    pylab.legend(loc = 'best')
+    pylab.show()
 
 
 # SIMULATION WITHOUT DRUG
