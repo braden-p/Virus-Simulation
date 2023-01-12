@@ -349,82 +349,6 @@ class ResistantVirus(SimpleVirus):
             raise NoChildException
         
         return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
-
-
-    def getResistances(self):
-        """
-        Returns the resistances for this virus.
-        """
-        # TODO
-
-    def getMutProb(self):
-        """
-        Returns the mutation probability for this virus.
-        """
-        # TODO
-
-    def isResistantTo(self, drug):
-        """
-        Get the state of this virus particle's resistance to a drug. This method
-        is called by getResistPop() in TreatedPatient to determine how many virus
-        particles have resistance to a drug.       
-
-        drug: The drug (a string)
-
-        returns: True if this virus instance is resistant to the drug, False
-        otherwise.
-        """
-        
-        # TODO
-
-
-    def reproduce(self, popDensity, activeDrugs):
-        """
-        Stochastically determines whether this virus particle reproduces at a
-        time step. Called by the update() method in the TreatedPatient class.
-
-        A virus particle will only reproduce if it is resistant to ALL the drugs
-        in the activeDrugs list. For example, if there are 2 drugs in the
-        activeDrugs list, and the virus particle is resistant to 1 or no drugs,
-        then it will NOT reproduce.
-
-        Hence, if the virus is resistant to all drugs
-        in activeDrugs, then the virus reproduces with probability:      
-
-        self.maxBirthProb * (1 - popDensity).                       
-
-        If this virus particle reproduces, then reproduce() creates and returns
-        the instance of the offspring ResistantVirus (which has the same
-        maxBirthProb and clearProb values as its parent). The offspring virus
-        will have the same maxBirthProb, clearProb, and mutProb as the parent.
-
-        For each drug resistance trait of the virus (i.e. each key of
-        self.resistances), the offspring has probability 1-mutProb of
-        inheriting that resistance trait from the parent, and probability
-        mutProb of switching that resistance trait in the offspring.       
-
-        For example, if a virus particle is resistant to guttagonol but not
-        srinol, and self.mutProb is 0.1, then there is a 10% chance that
-        that the offspring will lose resistance to guttagonol and a 90%
-        chance that the offspring will be resistant to guttagonol.
-        There is also a 10% chance that the offspring will gain resistance to
-        srinol and a 90% chance that the offspring will not be resistant to
-        srinol.
-
-        popDensity: the population density (a float), defined as the current
-        virus population divided by the maximum population       
-
-        activeDrugs: a list of the drug names acting on this virus particle
-        (a list of strings).
-
-        returns: a new instance of the ResistantVirus class representing the
-        offspring of this virus particle. The child should have the same
-        maxBirthProb and clearProb values as this virus. Raises a
-        NoChildException if this virus particle does not reproduce.
-        """
-
-        # TODO
-
             
 
 class TreatedPatient(Patient):
@@ -444,9 +368,14 @@ class TreatedPatient(Patient):
 
         maxPop: The  maximum virus population for this patient (an integer)
         """
+        Patient.__init__(self, viruses, maxPop)
+        self.viruses = viruses
+        self.maxPop = maxPop
+        self.drugs = []
 
-        # TODO
-
+    def __str__(self):
+        return 'TreatedPatient with'+str(self.getTotalPop())+' viruses and maxPop:'+str(self.maxPop)
+    
 
     def addPrescription(self, newDrug):
         """
@@ -458,8 +387,8 @@ class TreatedPatient(Patient):
 
         postcondition: The list of drugs being administered to a patient is updated
         """
-
-        # TODO
+        if newDrug not in self.drugs:
+            self.drugs.append(newDrug)
 
 
     def getPrescriptions(self):
@@ -469,8 +398,8 @@ class TreatedPatient(Patient):
         returns: The list of drug names (strings) being administered to this
         patient.
         """
-
-        # TODO
+        return self.drugs
+        
 
 
     def getResistPop(self, drugResist):
@@ -484,14 +413,21 @@ class TreatedPatient(Patient):
         returns: The population of viruses (an integer) with resistances to all
         drugs in the drugResist list.
         """
-
-        # TODO
+        resistantPop = 0
+        for virus in self.viruses:
+            numDrugsResistant = 0
+            for drug in drugResist:
+                if virus.isResistantTo(drug):
+                    numDrugsResistant += 1
+            if numDrugsResistant == len(drugResist):
+                resistantPop += 1
+        return resistantPop
 
 
     def update(self):
         """
         Update the state of the virus population in this patient for a single
-        time step. update() should execute these actions in order:
+        time step. update() executes these actions in order:
 
         - Determine whether each virus particle survives and update the list of
           virus particles accordingly
@@ -508,8 +444,20 @@ class TreatedPatient(Patient):
         returns: The total virus population at the end of the update (an
         integer)
         """
-
-        # TODO
+        activeDrugs = self.getPrescriptions()
+        children = []
+        for virus in self.getViruses():
+            if virus.doesClear():
+                self.viruses.remove(virus)
+        popDensity = len(self.getViruses()) / self.getMaxPop()
+        for virus in self.getViruses():
+            try:
+                children.append(virus.reproduce(popDensity,activeDrugs))
+            except NoChildException:
+                pass
+        for child in children:
+            self.viruses.append(child)
+        return len(self.getViruses())
 
 
 
