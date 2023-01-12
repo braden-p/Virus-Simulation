@@ -12,6 +12,7 @@ its offspring will develop a resistance to any drugs.
 There is a maximum limit to the size of the virus population within the body,
 and as the population density increases, the likelihood that a virus will
 reproduce decreases.
+
 A TreatedPatient inherits from Patient, and can be prescribed medication.
 If a virus is not resistant to a medication that has been taken by the
 TreatedPatient, it will not reproduce.
