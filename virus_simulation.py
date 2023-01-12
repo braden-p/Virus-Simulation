@@ -19,7 +19,7 @@ TreatedPatient, it will not reproduce.
 The simulationWithDrug and simulationWithoutDrug functions allow the user
 to run the virus simulation for 300 time steps and with their desired parameters
 over multiple trials, and will plot the average results of the trials. In the
-simulationWithDrug function, a drug is administered at the 150th time step.
+simulationWithDrug function, the drug guttagnol is administered at the 150th time step.
 The customizable parameters for these simulations are:
     - The number of viruses to start with (numViruses)
     - The maximum virus population (maxPop)
