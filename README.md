@@ -41,5 +41,6 @@ of the functions were provided materials. The majority of the implementation is
 my own work.
 The following class was provided:
 * `NoChildException`
+
 All of the remaining class and function names were provided with docstrings,
 but the implementations are my own work
