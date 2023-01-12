@@ -30,8 +30,7 @@ The customizable parameters for these simulations are:
 * The probablity the virus offspring will gain or lose resistance to a drug (mutProb)
 * The number of trials to run (numTrials)
 
-Scroll to the bottom of this program to uncomment the simulation lines of code,
-and run the program.
+###### Scroll to the bottom of this program to uncomment the simulation lines of code, and run the program.
 ---
 ## INSTRUCTIONS
 * Open virus_simulation.py
